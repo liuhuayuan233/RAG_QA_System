@@ -6,6 +6,11 @@ from pathlib import Path
 from datetime import datetime
 import json
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
+
 # 添加项目根目录到Python路径
 sys.path.append(str(Path(__file__).parent))
 

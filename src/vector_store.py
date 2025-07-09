@@ -4,7 +4,6 @@ from typing import List, Dict, Any, Optional, Union
 import numpy as np
 import chromadb
 from chromadb.config import Settings
-from sentence_transformers import SentenceTransformer
 from langchain.docstore.document import Document as LangchainDocument
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -12,9 +11,9 @@ import pandas as pd
 from config.config import Config
 from src.utils import setup_logging, safe_execute
 
-# 设置使用PyTorch后端
-os.environ['TOKENIZERS_PARALLELISM'] = 'false'  # 避免tokenizer警告
-os.environ['TRANSFORMERS_VERBOSITY'] = 'error'  # 减少transformers日志
+# 设置环境变量
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
 
 logger = setup_logging()
 
@@ -34,14 +33,23 @@ class VectorStore:
         try:
             logger.info(f"正在加载嵌入模型: {self.config.EMBEDDING_MODEL}")
             
-            # 使用BGE中文嵌入模型
+            # 简化的模型配置
+            model_kwargs = {
+                'device': 'cuda' if os.environ.get('CUDA_VISIBLE_DEVICES') != '-1' else 'cpu'
+            }
+            
+            encode_kwargs = {
+                'normalize_embeddings': True,
+                'batch_size': 32
+            }
+            
             self.embeddings = HuggingFaceEmbeddings(
                 model_name=self.config.EMBEDDING_MODEL,
-                model_kwargs={'device': 'cpu'},  # 可改为'cuda'如果有GPU
-                encode_kwargs={'normalize_embeddings': True}
+                model_kwargs=model_kwargs,
+                encode_kwargs=encode_kwargs
             )
             
-            logger.info("嵌入模型加载成功")
+            logger.info("嵌入模型加载成功 (CUDA)")
             
         except Exception as e:
             logger.error(f"嵌入模型加载失败: {str(e)}")
