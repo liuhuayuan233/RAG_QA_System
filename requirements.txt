@@ -26,9 +26,16 @@ scikit-learn==1.4.2
 matplotlib==3.8.4
 seaborn==0.13.2
 
+# 中文处理
+jieba==0.42.1
+
+# 数据集下载
+wikipedia==1.4.0
+openpyxl==3.1.2
+requests==2.31.0
+
 # 工具库
 tqdm==4.66.2
-requests==2.31.0
 urllib3==2.2.1
 colorama==0.4.6
 
