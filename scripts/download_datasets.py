@@ -19,9 +19,9 @@ import re
 # 添加项目根目录到Python路径
 sys.path.append(str(Path(__file__).parent.parent))
 
-from src.utils import setup_logger, clean_text, create_directories
+from src.utils import setup_logging, clean_text, create_directories
 
-logger = setup_logger()
+logger = setup_logging()
 
 class MedicalDataDownloader:
     """中文医疗问答数据下载器"""

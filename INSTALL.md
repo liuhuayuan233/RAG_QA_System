@@ -67,6 +67,8 @@ mkdir documents
 # 将文档复制到目录中
 # 支持的格式：PDF, DOCX, TXT, MD
 ```
+# 使用我们的下载脚本（推荐）
+python scripts/download_datasets.py --medical --limit 5000 --output ./documents
 
 ### 5. 构建向量知识库
 

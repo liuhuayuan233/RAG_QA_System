@@ -15,7 +15,7 @@ class Config:
     
     # 模型配置
     EMBEDDING_MODEL = "BAAI/bge-large-zh-v1.5"  # BGE中文嵌入模型
-    LLM_MODEL = "gpt-3.5-turbo"  # 可改为gpt-4或其他模型
+    LLM_MODEL = "deepseek-ai/DeepSeek-R1"  
     
     # 向量数据库配置
     CHROMA_PERSIST_DIRECTORY = os.getenv("CHROMA_PERSIST_DIRECTORY", "./chroma_db")

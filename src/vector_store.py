@@ -6,11 +6,15 @@ import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from langchain.docstore.document import Document as LangchainDocument
-from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
-
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+import pandas as pd
 from config.config import Config
 from src.utils import setup_logging, safe_execute
+
+# 设置使用PyTorch后端
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'  # 避免tokenizer警告
+os.environ['TRANSFORMERS_VERBOSITY'] = 'error'  # 减少transformers日志
 
 logger = setup_logging()
 
