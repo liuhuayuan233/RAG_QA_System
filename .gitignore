@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+rag_env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+rag_system.log
+
+# Vector database
+chroma_db/
+*.db
+*.sqlite
+
+# Model cache
+.cache/
+models/
+sentence_transformers/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Streamlit
+.streamlit/
+
+# Large files
+*.pdf
+*.docx
+*.doc
+*.ppt
+*.pptx
+*.xlsx
+*.xls
+
+# But keep example documents
+!documents/人工智能技术发展报告.md
+!documents/机器学习算法详解.md
+!documents/深度学习框架比较.md
+
+# Backup files
+backup/
+*.bak
+*.backup
+
+# System files
+*.lnk
+*.exe
+*.msi
+
+# Configuration backups
+config.backup
+*.config.bak

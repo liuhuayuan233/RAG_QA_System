@@ -1,0 +1,36 @@
+# 核心依赖
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-openai==0.1.7
+chromadb==0.4.24
+sentence-transformers==2.6.1
+torch==2.2.2
+numpy==1.26.4
+pandas==2.2.2
+python-docx==1.1.0
+pypdf==4.2.0
+streamlit==1.33.0
+python-dotenv==1.0.1
+openai==1.25.0
+tiktoken==0.6.0
+faiss-cpu==1.8.0
+
+# 文档处理
+PyMuPDF==1.23.24
+markdown==3.5.2
+beautifulsoup4==4.12.3
+lxml==4.9.4
+
+# 数据处理
+scikit-learn==1.4.2
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# 工具库
+tqdm==4.66.2
+requests==2.31.0
+urllib3==2.2.1
+colorama==0.4.6
+
+# 可选依赖（GPU支持）
+# torch==2.2.2+cu118 -f https://download.pytorch.org/whl/torch_stable.html
