@@ -10,7 +10,7 @@ def setup_logging():
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler('rag_system.log'),
+            logging.FileHandler('rag_system.log', encoding='utf-8'),
             logging.StreamHandler()
         ]
     )
