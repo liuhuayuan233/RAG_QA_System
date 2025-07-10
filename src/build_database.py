@@ -57,14 +57,6 @@ def main():
         print("✅ 完成！向量库已保存")
         print("🚀 现在可以运行: streamlit run app.py")
         
-    except ImportError as e:
-        if "cv2" in str(e):
-            print("❌ OpenCV冲突问题")
-            print("🔧 解决方案:")
-            print("pip install --upgrade --force-reinstall sentence-transformers")
-            print("或者重新创建虚拟环境")
-        else:
-            print(f"❌ 导入错误: {e}")
     except Exception as e:
         print(f"❌ 错误: {e}")
 

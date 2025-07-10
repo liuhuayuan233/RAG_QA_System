@@ -248,73 +248,7 @@ def display_sources(sources):
         </div>
         """, unsafe_allow_html=True)
 
-def display_advanced_search():
-    """显示高级搜索"""
-    st.subheader("🔍 高级搜索")
-    
-    # 搜索选项
-    search_type = st.selectbox(
-        "搜索类型",
-        ["语义搜索", "关键词搜索", "文档搜索"]
-    )
-    
-    if search_type == "语义搜索":
-        query = st.text_input("输入查询内容:")
-        k = st.slider("返回结果数量", 1, 20, 5)
-        
-        if st.button("搜索") and query:
-            try:
-                with st.spinner("搜索中..."):
-                    retriever = st.session_state.qa_chain.retriever
-                    results = retriever.retrieve(query, k)
-                    
-                    if results:
-                        st.success(f"找到 {len(results)} 个相关结果")
-                        display_sources(results)
-                    else:
-                        st.warning("没有找到相关结果")
-                        
-            except Exception as e:
-                st.error(f"搜索失败: {str(e)}")
-    
-    elif search_type == "关键词搜索":
-        keywords = st.text_input("输入关键词（用空格分隔）:")
-        
-        if st.button("搜索") and keywords:
-            try:
-                with st.spinner("搜索中..."):
-                    retriever = st.session_state.qa_chain.retriever
-                    keyword_list = keywords.split()
-                    results = retriever.retrieve_by_keywords(keyword_list)
-                    
-                    if results:
-                        st.success(f"找到 {len(results)} 个相关结果")
-                        display_sources(results)
-                    else:
-                        st.warning("没有找到相关结果")
-                        
-            except Exception as e:
-                st.error(f"搜索失败: {str(e)}")
-    
-    elif search_type == "文档搜索":
-        # 获取所有文档列表
-        if st.session_state.vector_store_info:
-            filename = st.text_input("输入文档名称:")
-            
-            if st.button("搜索") and filename:
-                try:
-                    with st.spinner("搜索中..."):
-                        retriever = st.session_state.qa_chain.retriever
-                        results = retriever.retrieve_by_document(filename)
-                        
-                        if results:
-                            st.success(f"找到 {len(results)} 个文档块")
-                            display_sources(results)
-                        else:
-                            st.warning("没有找到相关文档")
-                            
-                except Exception as e:
-                    st.error(f"搜索失败: {str(e)}")
+
 
 def display_system_stats():
     """显示系统统计"""
@@ -362,7 +296,7 @@ def main():
         st.header("功能选择")
         page = st.selectbox(
             "选择功能",
-            ["💬 智能问答", "📄 文档上传", "🔍 高级搜索", "📊 系统统计"]
+            ["💬 智能问答", "📄 文档上传", " 系统统计"]
         )
         
         # 配置选项
@@ -391,9 +325,7 @@ def main():
         display_chat_interface()
     elif page == "📄 文档上传":
         upload_and_process_document()
-    elif page == "🔍 高级搜索":
-        display_advanced_search()
-    elif page == "📊 系统统计":
+    elif page == " 系统统计":
         display_system_stats()
     
     # 底部信息
