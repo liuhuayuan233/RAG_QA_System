@@ -22,13 +22,24 @@ class Config:
     VECTOR_DIMENSION = int(os.getenv("VECTOR_DIMENSION", "1024"))
     COLLECTION_NAME = "documents"
     
-    # 文档处理配置
-    MAX_DOCUMENT_SIZE = int(os.getenv("MAX_DOCUMENT_SIZE", "10000000"))  # 10MB
-    CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
-    CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
+    # 文档处理配置 - 安全的配置解析
+    @staticmethod
+    def _safe_int(value, default):
+        """安全地解析整数配置，去除注释"""
+        try:
+            # 去除注释部分
+            if isinstance(value, str) and '#' in value:
+                value = value.split('#')[0].strip()
+            return int(value)
+        except (ValueError, TypeError):
+            return default
+    
+    MAX_DOCUMENT_SIZE = _safe_int.__func__(os.getenv("MAX_DOCUMENT_SIZE", "10000000"), 10000000)
+    CHUNK_SIZE = _safe_int.__func__(os.getenv("CHUNK_SIZE", "1000"), 1000)
+    CHUNK_OVERLAP = _safe_int.__func__(os.getenv("CHUNK_OVERLAP", "200"), 200)
     
     # 检索配置
-    TOP_K_RETRIEVAL = int(os.getenv("TOP_K_RETRIEVAL", "5"))
+    TOP_K_RETRIEVAL = _safe_int.__func__(os.getenv("TOP_K_RETRIEVAL", "5"), 5)
     SIMILARITY_THRESHOLD = 0.7
     
     # 支持的文档格式
@@ -36,7 +47,8 @@ class Config:
         ".pdf": "pdf",
         ".docx": "docx",
         ".txt": "txt",
-        ".md": "markdown"
+        ".md": "markdown",
+        ".jsonl": "jsonl"
     }
     
     # 文档目录

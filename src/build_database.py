@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-最简化的CUDA向量库构建脚本
-"""
-
 import os
 import sys
 from pathlib import Path
@@ -24,13 +20,22 @@ def main():
         from src.document_processor import DocumentProcessor
         from src.vector_store import VectorStore
         
-        config = Config()
+        # 先验证配置
+        print("🔧 验证配置...")
+        try:
+            config = Config()
+            print(f"✅ 文档目录: {config.DOCUMENTS_DIR}")
+            print(f"✅ 向量数据库目录: {config.CHROMA_PERSIST_DIRECTORY}")
+            print(f"✅ 嵌入模型: {config.EMBEDDING_MODEL}")
+        except Exception as config_error:
+            print(f"❌ 配置错误: {config_error}")
+            print("🔧 检查环境变量设置，可能包含无效的注释")
+            return
         
         # 检查文档
         docs_dir = config.DOCUMENTS_DIR
         if not os.path.exists(docs_dir) or not os.listdir(docs_dir):
             print("❌ 请先添加文档到 documents/ 目录")
-            print("💡 或运行: python scripts/download_datasets.py --medical --limit 1000")
             return
         
         # 处理文档

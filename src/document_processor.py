@@ -1,5 +1,6 @@
 import os
 import logging
+import json
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 import fitz  # PyMuPDF
@@ -85,6 +86,8 @@ class DocumentProcessor:
             return self._extract_docx_text(file_path)
         elif ext in [".txt", ".md"]:
             return self._extract_text_file(file_path)
+        elif ext == ".jsonl":
+            return self._extract_jsonl_text(file_path)
         else:
             raise ValueError(f"不支持的文件格式: {ext}")
     
@@ -177,56 +180,54 @@ class DocumentProcessor:
             
         except Exception as e:
             logger.error(f"处理目录失败 {directory_path}: {str(e)}")
-            raise
-    
-    def get_document_info(self, file_path: str) -> Dict[str, Any]:
-        """获取文档信息"""
+            raise 
+
+    def _extract_jsonl_text(self, file_path: str) -> str:
+        """提取JSONL文件中的医疗问答文本"""
         try:
-            stat = os.stat(file_path)
-            filename = Path(file_path).name
-            ext = get_file_extension(file_path)
+            texts = []
             
-            info = {
-                "filename": filename,
-                "file_path": file_path,
-                "extension": ext,
-                "size": stat.st_size,
-                "size_mb": round(stat.st_size / (1024 * 1024), 2),
-                "modified_time": stat.st_mtime,
-                "supported": ext in self.config.SUPPORTED_EXTENSIONS
-            }
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    
+                    try:
+                        # 解析JSON行
+                        item = json.loads(line)
+                        
+                        # 提取问题和答案
+                        questions = item.get('questions', [])
+                        answers = item.get('answers', [])
+                        
+                        if questions and answers:
+                            # 处理问题（可能是嵌套数组）
+                            if isinstance(questions[0], list) and len(questions[0]) > 0:
+                                question = questions[0][0].strip()
+                            else:
+                                question = str(questions[0]).strip() if questions[0] else ""
+                            
+                            # 处理答案
+                            answer = answers[0].strip() if len(answers) > 0 else ""
+                            
+                            if question and answer:
+                                # 格式化为问答对
+                                qa_text = f"问题：{question}\n\n答案：{answer}"
+                                texts.append(qa_text)
+                    
+                    except json.JSONDecodeError:
+                        logger.warning(f"跳过无效JSON行 {line_num}: {file_path}")
+                        continue
+                    except Exception as e:
+                        logger.warning(f"处理行 {line_num} 时出错: {e}")
+                        continue
             
-            return info
+            combined_text = "\n\n" + "="*50 + "\n\n".join(texts)
+            logger.info(f"JSONL文件处理完成，提取了 {len(texts)} 个问答对")
+            
+            return combined_text
             
         except Exception as e:
-            logger.error(f"获取文档信息失败 {file_path}: {str(e)}")
-            return {}
-    
-    def validate_documents(self, documents: List[LangchainDocument]) -> List[LangchainDocument]:
-        """验证文档质量"""
-        valid_documents = []
-        
-        for doc in documents:
-            content = doc.page_content.strip()
-            
-            # 过滤条件
-            if len(content) < 20:  # 太短
-                continue
-            if len(content) > 5000:  # 太长，重新分块
-                sub_chunks = self.text_splitter.split_text(content)
-                for i, sub_chunk in enumerate(sub_chunks):
-                    if len(sub_chunk.strip()) >= 20:
-                        new_doc = LangchainDocument(
-                            page_content=sub_chunk,
-                            metadata={
-                                **doc.metadata,
-                                "chunk_id": f"{doc.metadata.get('chunk_id', 0)}_{i}",
-                                "sub_chunk": True
-                            }
-                        )
-                        valid_documents.append(new_doc)
-            else:
-                valid_documents.append(doc)
-        
-        logger.info(f"文档验证完成，有效文档块: {len(valid_documents)}")
-        return valid_documents
+            logger.error(f"读取JSONL文件失败 {file_path}: {str(e)}")
+            raise

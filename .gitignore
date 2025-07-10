@@ -95,11 +95,7 @@ coverage.xml
 *.pptx
 *.xlsx
 *.xls
-
-# But keep example documents
-!documents/人工智能技术发展报告.md
-!documents/机器学习算法详解.md
-!documents/深度学习框架比较.md
+*.jsonl
 
 # Backup files
 backup/
