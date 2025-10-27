@@ -36,6 +36,11 @@ rag_env/
 *.swo
 *~
 
+# Environment variables
+.env
+.env.local
+.env.production
+
 # Logs
 *.log
 logs/
