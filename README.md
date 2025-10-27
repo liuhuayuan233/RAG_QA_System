@@ -23,6 +23,7 @@ pip install openai python-dotenv
 pip install PyMuPDF python-docx pandas numpy
 
 # 配置API密钥
+echo "OPENAI_API_BASE=your_api_base_here" > .env
 echo "OPENAI_API_KEY=your_api_key_here" > .env
 ```
 
