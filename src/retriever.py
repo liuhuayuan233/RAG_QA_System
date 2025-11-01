@@ -1,6 +1,5 @@
 import logging
 from typing import List, Dict, Any, Optional
-from langchain.schema import Document
 from src.vector_store import VectorStore
 from src.utils import setup_logging, calculate_relevance_score
 

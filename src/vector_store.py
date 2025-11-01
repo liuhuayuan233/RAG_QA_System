@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Optional, Union
 import numpy as np
 import chromadb
 from chromadb.config import Settings
-from langchain.docstore.document import Document as LangchainDocument
+from langchain_core.documents import Document as LangchainDocument
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 import pandas as pd

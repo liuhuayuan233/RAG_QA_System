@@ -21,6 +21,7 @@ pip install streamlit langchain langchain-community chromadb
 pip install sentence-transformers huggingface-hub
 pip install openai python-dotenv
 pip install PyMuPDF python-docx pandas numpy
+pip install langchain-openai
 
 # 配置API密钥
 echo "OPENAI_API_BASE=your_api_base_here" > .env

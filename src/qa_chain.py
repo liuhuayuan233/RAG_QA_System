@@ -1,10 +1,6 @@
 import logging
 from typing import List, Dict, Any, Optional
-from langchain.llms import OpenAI
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, AIMessage
-from langchain.callbacks import StreamingStdOutCallbackHandler
-
+from langchain_openai import ChatOpenAI
 from config.config import Config
 from src.retriever import Retriever
 from src.utils import setup_logging, format_sources, TokenCounter
@@ -55,7 +51,7 @@ class QAChain:
             prompt = self._build_prompt(question, context, use_history)
             
             # 生成答案
-            response = self.llm.predict(prompt)
+            response = self.llm.invoke(prompt).content
             
             # 记录对话历史
             if use_history:

@@ -5,8 +5,8 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 import fitz  # PyMuPDF
 from docx import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.docstore.document import Document as LangchainDocument
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document as LangchainDocument
 
 from config.config import Config
 from src.utils import clean_text, validate_file_size, get_file_extension, setup_logging
